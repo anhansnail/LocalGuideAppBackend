@@ -1,20 +1,20 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { UsersService } from './users.service';
 
-
+// (giữ GET, bỏ POST để tránh trùng register)
 @Controller('users')
 export class UsersController {
-constructor(private readonly usersService: UsersService) {}
+    constructor(private readonly usersService: UsersService) {}
 
 
-@Post()
-create(@Body() body: { email: string; password: string }) {
-return this.usersService.create(body.email, body.password);
-}
+    // @Post()
+    // create(@Body() body: { email: string; password: string }) {
+    // return this.usersService.create(body.email, body.password);
+    // }
 
 
-@Get()
-findAll() {
-return this.usersService.findAll();
-}
+    @Get()
+    findAll() {
+    return this.usersService.findAll();
+    }
 }
