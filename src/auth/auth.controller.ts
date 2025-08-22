@@ -31,6 +31,6 @@ export class AuthController {
   @Get('profile')
   profile(@Req() req: any) {
     // req.user được JwtStrategy validate gán vào
-    return { userId: req.user.sub, email: req.user.email };
+    return { userId: req.user.sub, email: req.user.email, role: req.user.role  };
   }
 }

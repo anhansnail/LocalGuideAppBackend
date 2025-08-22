@@ -3,12 +3,14 @@ import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { RolesService } from '../roles/roles.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private rolesService: RolesService,
   ) {}
 
   async register(email: string, password: string) {
@@ -35,7 +37,7 @@ export class AuthService {
 
   async login(email: string, password: string) {
     const user = await this.validateUser(email, password);
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email , role: user.role?.name || 'customer'};
     const access_token = await this.jwtService.signAsync(payload);
     return { access_token };
   }

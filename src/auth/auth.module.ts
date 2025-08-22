@@ -5,10 +5,12 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from './jwt.strategy';
+import { RolesModule } from '../roles/roles.module';
 
 @Module({
   imports: [
     UsersModule,
+    RolesModule, // 👈
     PassportModule,
     JwtModule.register({
       secret: 'CHANGE_ME_SUPER_SECRET', // 👉 nên chuyển qua .env trong thực tế
