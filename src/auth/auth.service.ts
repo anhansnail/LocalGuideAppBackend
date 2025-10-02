@@ -4,6 +4,9 @@ import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { RolesService } from '../roles/roles.service';
+	
+// Tạm lưu blacklist trong bộ nhớ (production nên dùng Redis hoặc DB)
+const tokenBlacklist = new Set<string>();
 
 @Injectable()
 export class AuthService {
@@ -40,5 +43,12 @@ export class AuthService {
     const payload = { sub: user.id, email: user.email , role: user.role?.name || 'customer'};
     const access_token = await this.jwtService.signAsync(payload);
     return { access_token };
+  }
+    async logout(token: string) {
+    tokenBlacklist.add(token);
+    return { message: 'Đăng xuất thành công' };
+  }
+  isTokenBlacklisted(token: string) {
+    return tokenBlacklist.has(token);
   }
 }

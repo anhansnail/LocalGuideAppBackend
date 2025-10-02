@@ -33,4 +33,11 @@ export class AuthController {
     // req.user được JwtStrategy validate gán vào
     return { userId: req.user.sub, email: req.user.email, role: req.user.role  };
   }
+  // logout
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  async logout(@Req() req) {
+    const token = req.headers.authorization?.split(' ')[1];
+    return this.authService.logout(token);
+  }
 }
